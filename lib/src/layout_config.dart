@@ -28,6 +28,10 @@ class LayoutConfig {
   /// (if any). Default value = 16.
   final int edgePadding;
 
+  /// Maximum allowed action buttons at the top right of the scaffold.
+  /// Default 2
+  final int maxVisibleActionButtons;
+
   int get centerLeftHorizontalPadding => edgePadding + leftColumnWidth;
   int get centerRightHorizontalPadding => edgePadding + rightColumnWidth;
 
@@ -38,6 +42,7 @@ class LayoutConfig {
     @required this.isLeftColumnVisible,
     @required this.isRightColumnVisible,
     @required this.leftColumnWidth,
+    this.maxVisibleActionButtons = 2,
     @required this.rightColumnWidth,
     @required this.screenWidth,
   });
@@ -60,6 +65,9 @@ class LayoutConfig {
   ///   to screenWidth. Will be ignored unless left and right flex is 0. The
   ///   purpose of this property is to improve page readability by reducing
   ///   user's horizontal eye movement
+  /// * [maxVisibleActionButtons] maximum allowed action buttons on the top
+  ///   right of the app bar. Default value, 2 on mobile, 3 on tablet,
+  ///   and 5 on desktop and wider.
   /// * [rightFlex] will be ignored in mobile size. Will be ignored in tablet.
   ///   when [leftFlex] is not 0. To make the right column hidden, set to 0.
 
@@ -70,12 +78,15 @@ class LayoutConfig {
     int edgePadding = 16,
     double endDrawerToScreenWidthRatio,
     int leftFlex = 1,
+    int maxVisibleActionButtons,
     int rightFlex = 1,
     double maxCenterToScreenRatioWhenNoSideColumn = 0.75,
   }) {
+    int calculatedMaxVisibleActionButtons;
     double calculatedDrawerRatio, calculatedEndDrawerRatio;
     if (screenWidth < 600) {
       // Mobile
+      calculatedMaxVisibleActionButtons = maxVisibleActionButtons ?? 2;
       calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.75;
       calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.75;
       return LayoutConfig(
@@ -84,6 +95,7 @@ class LayoutConfig {
         isLeftColumnVisible: false,
         isRightColumnVisible: false,
         leftColumnWidth: 0,
+        maxVisibleActionButtons: calculatedMaxVisibleActionButtons,
         rightColumnWidth: 0,
         screenWidth: screenWidth,
         edgePadding: edgePadding,
@@ -94,6 +106,7 @@ class LayoutConfig {
 
     if (screenWidth < 768) {
       // Tablet
+      calculatedMaxVisibleActionButtons = maxVisibleActionButtons ?? 3;
       calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.5;
       calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.5;
 
@@ -119,6 +132,7 @@ class LayoutConfig {
         isLeftColumnVisible: leftFlex > 0,
         isRightColumnVisible: leftFlex == 0 && rightFlex > 0,
         leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
+        maxVisibleActionButtons: calculatedMaxVisibleActionButtons,
         rightColumnWidth: max(rightWidth - calculatedEdgePadding, 0),
         screenWidth: screenWidth,
         edgePadding: calculatedEdgePadding,
@@ -126,6 +140,7 @@ class LayoutConfig {
     }
     // Desktop or wider
 
+    calculatedMaxVisibleActionButtons = maxVisibleActionButtons ?? 5;
     calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.25;
     calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.25;
 
@@ -150,6 +165,7 @@ class LayoutConfig {
       isLeftColumnVisible: leftFlex > 0,
       isRightColumnVisible: rightFlex > 0,
       leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
+      maxVisibleActionButtons: calculatedMaxVisibleActionButtons,
       rightColumnWidth: max(rightWidth - calculatedEdgePadding, 0),
       screenWidth: screenWidth,
       edgePadding: calculatedEdgePadding,

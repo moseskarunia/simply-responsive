@@ -13,6 +13,7 @@ void main() {
     expect(config.isLeftColumnVisible, false);
     expect(config.isRightColumnVisible, false);
     expect(config.leftColumnWidth, 0);
+    expect(config.maxVisibleActionButtons, 2);
     expect(config.rightColumnWidth, 0);
     expect(config.screenWidth, 500);
   });
@@ -31,6 +32,7 @@ void main() {
       expect(config.isLeftColumnVisible, true);
       expect(config.isRightColumnVisible, false);
       expect(config.leftColumnWidth, leftWidth - 16);
+      expect(config.maxVisibleActionButtons, 3);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 750);
     });
@@ -61,6 +63,7 @@ void main() {
       expect(config.isLeftColumnVisible, false);
       expect(config.isRightColumnVisible, false);
       expect(config.leftColumnWidth, 0);
+      expect(config.maxVisibleActionButtons, 3);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 750);
     });
@@ -78,6 +81,7 @@ void main() {
       expect(config.isLeftColumnVisible, true);
       expect(config.isRightColumnVisible, true);
       expect(config.leftColumnWidth, 250 - 16);
+      expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, 250 - 16);
       expect(config.screenWidth, 1000);
     });
@@ -93,6 +97,7 @@ void main() {
       expect(config.isLeftColumnVisible, true);
       expect(config.isRightColumnVisible, false);
       expect(config.leftColumnWidth, leftWidth - 16);
+      expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 1000);
     });
@@ -108,6 +113,7 @@ void main() {
       expect(config.isLeftColumnVisible, false);
       expect(config.isRightColumnVisible, true);
       expect(config.leftColumnWidth, 0);
+      expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, rightWidth - 16);
       expect(config.screenWidth, 1000);
     });
@@ -123,6 +129,7 @@ void main() {
       expect(config.isLeftColumnVisible, false);
       expect(config.isRightColumnVisible, false);
       expect(config.leftColumnWidth, 0);
+      expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 1000);
     });
