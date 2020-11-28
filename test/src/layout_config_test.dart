@@ -81,8 +81,36 @@ void main() {
       expect(config.rightColumnWidth, 250 - 16);
       expect(config.screenWidth, 1000);
     });
-    test('with left column', () {});
-    test('with right column', () {});
+    test('with left column', () {
+      final config = LayoutConfig.build(1000, rightFlex: 0);
+      final leftWidth = (1000 / 3).floor();
+
+      expect(config.centerLeftHorizontalPadding, leftWidth);
+      expect(config.centerRightHorizontalPadding, 16);
+      expect(config.drawerWidth, 0.25 * 1000);
+      expect(config.edgePadding, 16);
+      expect(config.endDrawerWidth, 0.25 * 1000);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, false);
+      expect(config.leftColumnWidth, leftWidth - 16);
+      expect(config.rightColumnWidth, 0);
+      expect(config.screenWidth, 1000);
+    });
+    test('with right column', () {
+      final config = LayoutConfig.build(1000, leftFlex: 0);
+      final rightWidth = (1000 / 3).floor();
+
+      expect(config.centerLeftHorizontalPadding, 16);
+      expect(config.centerRightHorizontalPadding, rightWidth);
+      expect(config.drawerWidth, 0.25 * 1000);
+      expect(config.edgePadding, 16);
+      expect(config.endDrawerWidth, 0.25 * 1000);
+      expect(config.isLeftColumnVisible, false);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 0);
+      expect(config.rightColumnWidth, rightWidth - 16);
+      expect(config.screenWidth, 1000);
+    });
     test('with center column only', () {});
   });
 }
