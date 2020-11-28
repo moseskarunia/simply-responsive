@@ -28,9 +28,9 @@ void main() {
       expect(config.centerColumnWidth, centerWidth);
       expect(config.centerLeftHorizontalPadding, leftWidth);
       expect(config.centerRightHorizontalPadding, 16);
-      expect(config.drawerWidth, 0.75 * 750);
+      expect(config.drawerWidth, 0.5 * 750);
       expect(config.edgePadding, 16);
-      expect(config.endDrawerWidth, 0.75 * 750);
+      expect(config.endDrawerWidth, 0.5 * 750);
       expect(config.isLeftColumnVisible, true);
       expect(config.isRightColumnVisible, false);
       expect(config.leftColumnWidth, leftWidth - 16);
@@ -46,9 +46,9 @@ void main() {
       expect(config.centerColumnWidth, centerWidth);
       expect(config.centerLeftHorizontalPadding, 16);
       expect(config.centerRightHorizontalPadding, rightWidth);
-      expect(config.drawerWidth, 0.75 * 750);
+      expect(config.drawerWidth, 0.5 * 750);
       expect(config.edgePadding, 16);
-      expect(config.endDrawerWidth, 0.75 * 750);
+      expect(config.endDrawerWidth, 0.5 * 750);
       expect(config.isLeftColumnVisible, false);
       expect(config.isRightColumnVisible, true);
       expect(config.leftColumnWidth, 0);
@@ -61,9 +61,9 @@ void main() {
       expect(config.centerColumnWidth, 750);
       expect(config.centerLeftHorizontalPadding, 93);
       expect(config.centerRightHorizontalPadding, 93);
-      expect(config.drawerWidth, 0.75 * 750);
+      expect(config.drawerWidth, 0.5 * 750);
       expect(config.edgePadding, 93);
-      expect(config.endDrawerWidth, 0.75 * 750);
+      expect(config.endDrawerWidth, 0.5 * 750);
       expect(config.isLeftColumnVisible, false);
       expect(config.isRightColumnVisible, false);
       expect(config.leftColumnWidth, 0);
@@ -71,4 +71,25 @@ void main() {
       expect(config.screenWidth, 750);
     });
   });
+
+  // group('should return desktop configuration', () {
+  //   test('with both side columns', () {
+  //     final config = LayoutConfig.build(1000);
+
+  //     expect(config.centerColumnWidth, 500);
+  //     expect(config.centerLeftHorizontalPadding, 16);
+  //     expect(config.centerRightHorizontalPadding, 16);
+  //     expect(config.drawerWidth, 0.75 * 1000);
+  //     expect(config.edgePadding, 16);
+  //     expect(config.endDrawerWidth, 0.75 * 1000);
+  //     expect(config.isLeftColumnVisible, true);
+  //     expect(config.isRightColumnVisible, false);
+  //     expect(config.leftColumnWidth, 250 - 16);
+  //     expect(config.rightColumnWidth, 0);
+  //     expect(config.screenWidth, 1000);
+  //   });
+  //   test('with left column', () {});
+  //   test('with right column', () {});
+  //   test('with center column only', () {});
+  // });
 }

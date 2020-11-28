@@ -49,6 +49,11 @@ class LayoutConfig {
   /// with ceiling rounding first.
   ///
   /// * [drawerToWidthRatio] ratio of drawer to the total width of the screen.
+  ///   When null, the default value is: 0.75 on mobile, 0.5 on tablet, and
+  ///   0.25 on desktop
+  /// * [endDrawerRatio] ratio of drawer to the total width of the screen.
+  ///   When null, the default value is: 0.75 on mobile, 0.5 on tablet, and
+  ///   0.25 on desktop
   /// * [edgePadding] The space on the left and right of the screen to make
   ///   the center scrollable from the edge. The same amount will automatically
   ///   substracted from left and right width (if not already 0)
@@ -63,18 +68,21 @@ class LayoutConfig {
   factory LayoutConfig.build(
     int screenWidth, {
     int centerFlex = 2,
-    double drawerToScreenWidthRatio = 0.75,
+    double drawerToScreenWidthRatio,
     int edgePadding = 16,
-    double endDrawerToScreenWidthRatio = 0.75,
+    double endDrawerToScreenWidthRatio,
     int leftFlex = 1,
     int rightFlex = 1,
     double maxCenterToScreenRatioWhenNoSideColumn = 0.75,
   }) {
+    double calculatedDrawerRatio, calculatedEndDrawerRatio;
     if (screenWidth < 600) {
       // Mobile
+      calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.75;
+      calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.75;
       return LayoutConfig(
-        drawerWidth: drawerToScreenWidthRatio * screenWidth,
-        endDrawerWidth: drawerToScreenWidthRatio * screenWidth,
+        drawerWidth: calculatedDrawerRatio * screenWidth,
+        endDrawerWidth: calculatedEndDrawerRatio * screenWidth,
         isLeftColumnVisible: false,
         isRightColumnVisible: false,
         leftColumnWidth: 0,
@@ -83,7 +91,11 @@ class LayoutConfig {
         screenWidth: screenWidth,
         edgePadding: edgePadding,
       );
-    } else if (screenWidth < 768) {
+    }
+
+    if (screenWidth < 768) {
+      calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.5;
+      calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.5;
       // Tablet
       int totalFlex =
           leftFlex > 0 ? centerFlex + leftFlex : centerFlex + rightFlex;
@@ -104,8 +116,8 @@ class LayoutConfig {
       }
 
       return LayoutConfig(
-        drawerWidth: drawerToScreenWidthRatio * screenWidth,
-        endDrawerWidth: drawerToScreenWidthRatio * screenWidth,
+        drawerWidth: calculatedDrawerRatio * screenWidth,
+        endDrawerWidth: calculatedEndDrawerRatio * screenWidth,
         isLeftColumnVisible: leftFlex > 0,
         isRightColumnVisible: leftFlex == 0 && rightFlex > 0,
         leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
@@ -114,9 +126,10 @@ class LayoutConfig {
         screenWidth: screenWidth,
         edgePadding: calculatedEdgePadding,
       );
-    } else {
-      // Desktop
-      throw UnimplementedError();
     }
+
+    // Desktop or wider
+
+    throw UnimplementedError();
   }
 }
