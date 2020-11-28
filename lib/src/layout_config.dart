@@ -54,13 +54,14 @@ class LayoutConfig {
   /// * [edgePadding] The space on the left and right of the screen to make
   ///   the center scrollable from the edge. The same amount will automatically
   ///   substracted from left and right width (if not already 0)
-  /// * [leftFlex] will be ignored in mobile size.
+  /// * [leftFlex] will be ignored in mobile size. To make the left column
+  ///   hidden, set to 0
   /// * [maxCenterToScreenRatioWhenNoSideColumn] Max center column width ratio
   ///   to screenWidth. Will be ignored unless left and right flex is 0. The
   ///   purpose of this property is to improve page readability by reducing
   ///   user's horizontal eye movement
-  /// * [rightFlex] will be ignored in mobile size. Will be ignored in tablet
-  ///   when [leftFlex] is not 0.
+  /// * [rightFlex] will be ignored in mobile size. Will be ignored in tablet.
+  ///   when [leftFlex] is not 0. To make the right column hidden, set to 0.
 
   factory LayoutConfig.build(
     int screenWidth, {
@@ -89,18 +90,20 @@ class LayoutConfig {
       );
     }
 
+    int totalFlex, leftWidth, rightWidth, calculatedEdgePadding;
+
     if (screenWidth < 768) {
+      // Tablet
       calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.5;
       calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.5;
-      // Tablet
-      int totalFlex =
-          leftFlex > 0 ? centerFlex + leftFlex : centerFlex + rightFlex;
 
-      final leftWidth = max((leftFlex * screenWidth / totalFlex).floor(), 0);
-      final rightWidth = leftFlex == 0
+      totalFlex = leftFlex > 0 ? centerFlex + leftFlex : centerFlex + rightFlex;
+
+      leftWidth = max((leftFlex * screenWidth / totalFlex).floor(), 0);
+      rightWidth = leftFlex == 0
           ? max((rightFlex * screenWidth / totalFlex).floor(), 0)
           : 0;
-      int calculatedEdgePadding = edgePadding;
+      calculatedEdgePadding = edgePadding;
 
       if (maxCenterToScreenRatioWhenNoSideColumn < 1 &&
           leftFlex == 0 &&
@@ -121,9 +124,35 @@ class LayoutConfig {
         edgePadding: calculatedEdgePadding,
       );
     }
-
     // Desktop or wider
 
-    throw UnimplementedError();
+    calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.25;
+    calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.25;
+
+    totalFlex = centerFlex + leftFlex + rightFlex;
+
+    leftWidth = max((leftFlex * screenWidth / totalFlex).floor(), 0);
+    rightWidth = max((rightFlex * screenWidth / totalFlex).floor(), 0);
+
+    calculatedEdgePadding = edgePadding;
+
+    if (maxCenterToScreenRatioWhenNoSideColumn < 1 &&
+        leftFlex == 0 &&
+        rightFlex == 0) {
+      calculatedEdgePadding =
+          ((1.0 - maxCenterToScreenRatioWhenNoSideColumn) * screenWidth / 2)
+              .floor();
+    }
+
+    return LayoutConfig(
+      drawerWidth: calculatedDrawerRatio * screenWidth,
+      endDrawerWidth: calculatedEndDrawerRatio * screenWidth,
+      isLeftColumnVisible: leftFlex > 0,
+      isRightColumnVisible: rightFlex > 0,
+      leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
+      rightColumnWidth: max(rightWidth - calculatedEdgePadding, 0),
+      screenWidth: screenWidth,
+      edgePadding: calculatedEdgePadding,
+    );
   }
 }

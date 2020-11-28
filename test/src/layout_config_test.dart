@@ -66,23 +66,23 @@ void main() {
     });
   });
 
-  // group('should return desktop configuration', () {
-  //   test('with both side columns', () {
-  //     final config = LayoutConfig.build(1000);
+  group('should return desktop configuration', () {
+    test('with both side columns', () {
+      final config = LayoutConfig.build(1000);
 
-  //     expect(config.centerLeftHorizontalPadding, 16);
-  //     expect(config.centerRightHorizontalPadding, 16);
-  //     expect(config.drawerWidth, 0.75 * 1000);
-  //     expect(config.edgePadding, 16);
-  //     expect(config.endDrawerWidth, 0.75 * 1000);
-  //     expect(config.isLeftColumnVisible, true);
-  //     expect(config.isRightColumnVisible, false);
-  //     expect(config.leftColumnWidth, 250 - 16);
-  //     expect(config.rightColumnWidth, 0);
-  //     expect(config.screenWidth, 1000);
-  //   });
-  //   test('with left column', () {});
-  //   test('with right column', () {});
-  //   test('with center column only', () {});
-  // });
+      expect(config.centerLeftHorizontalPadding, 250);
+      expect(config.centerRightHorizontalPadding, 250);
+      expect(config.drawerWidth, 0.25 * 1000);
+      expect(config.edgePadding, 16);
+      expect(config.endDrawerWidth, 0.25 * 1000);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 250 - 16);
+      expect(config.rightColumnWidth, 250 - 16);
+      expect(config.screenWidth, 1000);
+    });
+    test('with left column', () {});
+    test('with right column', () {});
+    test('with center column only', () {});
+  });
 }
