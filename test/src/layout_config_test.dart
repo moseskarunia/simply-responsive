@@ -56,7 +56,19 @@ void main() {
       expect(config.screenWidth, 750);
     });
     test('with center column only', () {
-      //
+      final config = LayoutConfig.build(750, leftFlex: 0, rightFlex: 0);
+
+      expect(config.centerColumnWidth, 750);
+      expect(config.centerLeftHorizontalPadding, 16);
+      expect(config.centerRightHorizontalPadding, 16);
+      expect(config.drawerWidth, 0.75 * 750);
+      expect(config.edgePadding, 16);
+      expect(config.endDrawerWidth, 0.75 * 750);
+      expect(config.isLeftColumnVisible, false);
+      expect(config.isRightColumnVisible, false);
+      expect(config.leftColumnWidth, 0);
+      expect(config.rightColumnWidth, 0);
+      expect(config.screenWidth, 750);
     });
   });
 }
