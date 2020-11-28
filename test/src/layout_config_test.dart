@@ -59,10 +59,10 @@ void main() {
       final config = LayoutConfig.build(750, leftFlex: 0, rightFlex: 0);
 
       expect(config.centerColumnWidth, 750);
-      expect(config.centerLeftHorizontalPadding, 16);
-      expect(config.centerRightHorizontalPadding, 16);
+      expect(config.centerLeftHorizontalPadding, 93);
+      expect(config.centerRightHorizontalPadding, 93);
       expect(config.drawerWidth, 0.75 * 750);
-      expect(config.edgePadding, 16);
+      expect(config.edgePadding, 93);
       expect(config.endDrawerWidth, 0.75 * 750);
       expect(config.isLeftColumnVisible, false);
       expect(config.isRightColumnVisible, false);

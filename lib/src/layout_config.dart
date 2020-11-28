@@ -53,18 +53,22 @@ class LayoutConfig {
   ///   the center scrollable from the edge. The same amount will automatically
   ///   substracted from left and right width (if not already 0)
   /// * [leftFlex] will be ignored in mobile size.
+  /// * [maxCenterToScreenRatioWhenNoSideColumn] Max center column width ratio
+  ///   to screenWidth. Will be ignored unless left and right flex is 0. The
+  ///   purpose of this property is to improve page readability by reducing
+  ///   user's horizontal eye movement
   /// * [rightFlex] will be ignored in mobile size. Will be ignored in tablet
   ///   when [leftFlex] is not 0.
 
   factory LayoutConfig.build(
     int screenWidth, {
     int centerFlex = 2,
-    int centerHorizontalPadding = 16,
     double drawerToScreenWidthRatio = 0.75,
     int edgePadding = 16,
     double endDrawerToScreenWidthRatio = 0.75,
     int leftFlex = 1,
     int rightFlex = 1,
+    double maxCenterToScreenRatioWhenNoSideColumn = 0.75,
   }) {
     if (screenWidth < 600) {
       // Mobile
@@ -88,18 +92,27 @@ class LayoutConfig {
       final rightWidth = leftFlex == 0
           ? max((rightFlex * screenWidth / totalFlex).floor(), 0)
           : 0;
-      final centerWidth = screenWidth - (leftWidth + rightWidth);
+      int centerWidth = screenWidth - (leftWidth + rightWidth);
+      int calculatedEdgePadding = edgePadding;
+
+      if (maxCenterToScreenRatioWhenNoSideColumn < 1 &&
+          leftFlex == 0 &&
+          rightFlex == 0) {
+        calculatedEdgePadding =
+            ((1.0 - maxCenterToScreenRatioWhenNoSideColumn) * screenWidth / 2)
+                .floor();
+      }
 
       return LayoutConfig(
         drawerWidth: drawerToScreenWidthRatio * screenWidth,
         endDrawerWidth: drawerToScreenWidthRatio * screenWidth,
         isLeftColumnVisible: leftFlex > 0,
         isRightColumnVisible: leftFlex == 0 && rightFlex > 0,
-        leftColumnWidth: max(leftWidth - edgePadding, 0),
-        rightColumnWidth: max(rightWidth - edgePadding, 0),
+        leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
+        rightColumnWidth: max(rightWidth - calculatedEdgePadding, 0),
         centerColumnWidth: centerWidth,
         screenWidth: screenWidth,
-        edgePadding: edgePadding,
+        edgePadding: calculatedEdgePadding,
       );
     } else {
       // Desktop
