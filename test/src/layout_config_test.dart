@@ -5,7 +5,6 @@ void main() {
   test('should return mobile configuration', () {
     final config = LayoutConfig.build(500);
 
-    expect(config.centerColumnWidth, 500);
     expect(config.centerLeftHorizontalPadding, 16);
     expect(config.centerRightHorizontalPadding, 16);
     expect(config.drawerWidth, 0.75 * 500);
@@ -23,9 +22,7 @@ void main() {
       final config = LayoutConfig.build(750);
 
       final leftWidth = (1 * 750 / 3).floor();
-      final centerWidth = 750 - leftWidth;
 
-      expect(config.centerColumnWidth, centerWidth);
       expect(config.centerLeftHorizontalPadding, leftWidth);
       expect(config.centerRightHorizontalPadding, 16);
       expect(config.drawerWidth, 0.5 * 750);
@@ -41,9 +38,7 @@ void main() {
       final config = LayoutConfig.build(750, leftFlex: 0);
 
       final rightWidth = (1 * 750 / 3).floor();
-      final centerWidth = 750 - rightWidth;
 
-      expect(config.centerColumnWidth, centerWidth);
       expect(config.centerLeftHorizontalPadding, 16);
       expect(config.centerRightHorizontalPadding, rightWidth);
       expect(config.drawerWidth, 0.5 * 750);
@@ -58,7 +53,6 @@ void main() {
     test('with center column only', () {
       final config = LayoutConfig.build(750, leftFlex: 0, rightFlex: 0);
 
-      expect(config.centerColumnWidth, 750);
       expect(config.centerLeftHorizontalPadding, 93);
       expect(config.centerRightHorizontalPadding, 93);
       expect(config.drawerWidth, 0.5 * 750);
@@ -76,7 +70,6 @@ void main() {
   //   test('with both side columns', () {
   //     final config = LayoutConfig.build(1000);
 
-  //     expect(config.centerColumnWidth, 500);
   //     expect(config.centerLeftHorizontalPadding, 16);
   //     expect(config.centerRightHorizontalPadding, 16);
   //     expect(config.drawerWidth, 0.75 * 1000);

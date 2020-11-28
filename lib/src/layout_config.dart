@@ -16,8 +16,6 @@ class LayoutConfig {
   /// Width of the right column.
   final int rightColumnWidth;
 
-  final int centerColumnWidth;
-
   /// Width of the endDrawer.
   final double endDrawerWidth;
 
@@ -34,7 +32,6 @@ class LayoutConfig {
   int get centerRightHorizontalPadding => edgePadding + rightColumnWidth;
 
   const LayoutConfig({
-    @required this.centerColumnWidth,
     @required this.drawerWidth,
     this.edgePadding = 16,
     @required this.endDrawerWidth,
@@ -87,7 +84,6 @@ class LayoutConfig {
         isRightColumnVisible: false,
         leftColumnWidth: 0,
         rightColumnWidth: 0,
-        centerColumnWidth: screenWidth,
         screenWidth: screenWidth,
         edgePadding: edgePadding,
       );
@@ -122,7 +118,6 @@ class LayoutConfig {
         isRightColumnVisible: leftFlex == 0 && rightFlex > 0,
         leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
         rightColumnWidth: max(rightWidth - calculatedEdgePadding, 0),
-        centerColumnWidth: centerWidth,
         screenWidth: screenWidth,
         edgePadding: calculatedEdgePadding,
       );
