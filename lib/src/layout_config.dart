@@ -100,7 +100,6 @@ class LayoutConfig {
       final rightWidth = leftFlex == 0
           ? max((rightFlex * screenWidth / totalFlex).floor(), 0)
           : 0;
-      int centerWidth = screenWidth - (leftWidth + rightWidth);
       int calculatedEdgePadding = edgePadding;
 
       if (maxCenterToScreenRatioWhenNoSideColumn < 1 &&
