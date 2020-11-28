@@ -111,6 +111,20 @@ void main() {
       expect(config.rightColumnWidth, rightWidth - 16);
       expect(config.screenWidth, 1000);
     });
-    test('with center column only', () {});
+    test('with center column only', () {
+      final config = LayoutConfig.build(1000, leftFlex: 0, rightFlex: 0);
+      final sidePadding = (1000 * 0.25 / 2).floor();
+
+      expect(config.centerLeftHorizontalPadding, sidePadding);
+      expect(config.centerRightHorizontalPadding, sidePadding);
+      expect(config.drawerWidth, 0.25 * 1000);
+      expect(config.edgePadding, sidePadding);
+      expect(config.endDrawerWidth, 0.25 * 1000);
+      expect(config.isLeftColumnVisible, false);
+      expect(config.isRightColumnVisible, false);
+      expect(config.leftColumnWidth, 0);
+      expect(config.rightColumnWidth, 0);
+      expect(config.screenWidth, 1000);
+    });
   });
 }
