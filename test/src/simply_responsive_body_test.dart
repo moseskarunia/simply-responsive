@@ -329,14 +329,44 @@ void main() {
     });
   });
 
-  group('should only have left and right column without center', () {
+  testWidgets('should build 2 columns mode', (tester) async {
     final config = LayoutConfig(
       screenWidth: 500,
-      leftColumnWidth: 0,
-      rightColumnWidth: 100,
-      isLeftColumnVisible: false,
+      leftColumnWidth: 300,
+      rightColumnWidth: 200,
+      isLeftColumnVisible: true,
       isRightColumnVisible: true,
       edgePadding: 16,
     );
+
+    final body = SimplyResponsiveBody(
+      config,
+      centerChild: null,
+      leftChild: Text('the left'),
+      rightChild: Text('the right'),
+    );
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
+
+    final centerWidget = find.byKey(Key('centerColumn'));
+    final leftWidget = find.byKey(Key('leftColumn'));
+    final rightWidget = find.byKey(Key('rightColumn'));
+    expect(centerWidget, findsNothing);
+    expect(leftWidget, findsOneWidget);
+    expect(rightWidget, findsOneWidget);
+
+    expect(tester.getSize(leftWidget).width, config.leftColumnWidth);
+    expect(tester.getSize(rightWidget).width, config.rightColumnWidth);
+
+    final row1 = find.ancestor(of: leftWidget, matching: find.byType(Row));
+    final row2 = find.ancestor(of: rightWidget, matching: find.byType(Row));
+    expect(row1, findsOneWidget);
+    expect(row2, findsOneWidget);
+
+    expect(tester.widget<Row>(row1).children.length, 2);
+
+    final outerContainer =
+        find.ancestor(of: row1, matching: find.byType(Container));
+
+    expect(tester.getSize(outerContainer).width, config.screenWidth);
   });
 }

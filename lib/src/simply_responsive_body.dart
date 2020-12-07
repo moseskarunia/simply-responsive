@@ -5,6 +5,9 @@ import 'package:simply_responsive/src/layout_config.dart';
 /// based on provided [layoutConfig]. Center column will always have
 /// fixed total width equals to [layoutConfig.screenWidth].
 /// If exist, side columns will be arranged in a [Positioned] widget.
+///
+/// In the case of 2 column mode (left right) and no center, the page will not
+/// use stack, just a Row with 2 child with their own widths
 class SimplyResponsiveBody extends StatelessWidget {
   final LayoutConfig layoutConfig;
   final Widget leftChild;
@@ -28,29 +31,47 @@ class SimplyResponsiveBody extends StatelessWidget {
       return _centerColumn;
     }
 
-    List<Widget> stackChildren = [Positioned.fill(child: _centerColumn)];
+    List<Widget> stackChildren = [];
 
-    if (_leftColumn != null) {
-      stackChildren.add(Positioned(
-        left: layoutConfig.edgePadding.toDouble(),
-        child: _leftColumn,
-      ));
+    if (_centerColumn != null) {
+      stackChildren = [Positioned.fill(child: _centerColumn)];
+      if (_leftColumn != null) {
+        stackChildren.add(Positioned(
+          left: layoutConfig.edgePadding.toDouble(),
+          child: _leftColumn,
+        ));
+      }
+
+      if (_rightColumn != null) {
+        stackChildren.add(Positioned(
+          right: layoutConfig.edgePadding.toDouble(),
+          child: _rightColumn,
+        ));
+      }
+      return Container(
+        width: layoutConfig.screenWidth.toDouble(),
+        child: Stack(children: stackChildren),
+      );
+    } else {
+      // 2 columns mode
+      if (_leftColumn != null) {
+        stackChildren.add(_leftColumn);
+      }
+      if (_rightColumn != null) {
+        stackChildren.add(_rightColumn);
+      }
+
+      return Container(
+        width: layoutConfig.screenWidth.toDouble(),
+        child: Row(children: stackChildren),
+      );
     }
-
-    if (_rightColumn != null) {
-      stackChildren.add(Positioned(
-        right: layoutConfig.edgePadding.toDouble(),
-        child: _rightColumn,
-      ));
-    }
-
-    return Container(
-      width: layoutConfig.screenWidth.toDouble(),
-      child: Stack(children: stackChildren),
-    );
   }
 
   Widget _buildCenter(BuildContext context) {
+    if (centerChild == null) {
+      return null;
+    }
     return Container(
       key: Key('centerColumn'),
       width: layoutConfig.screenWidth.toDouble(),
