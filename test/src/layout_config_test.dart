@@ -75,6 +75,29 @@ void main() {
       expect(config.hasLeftColumn, false);
       expect(config.hasRightColumn, false);
     });
+
+    test('with left and right column only', () {
+      final config = LayoutConfig.build(
+        750,
+        leftFlex: 1,
+        rightFlex: 1,
+        centerFlex: 0,
+      );
+
+      expect(config.centerLeftHorizontalPadding, 375);
+      expect(config.centerRightHorizontalPadding, 375);
+      expect(config.drawerWidth, 0.5 * 750);
+      expect(config.edgePadding, 0);
+      expect(config.endDrawerWidth, 0.5 * 750);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 375);
+      expect(config.maxVisibleActionButtons, 3);
+      expect(config.rightColumnWidth, 375);
+      expect(config.screenWidth, 750);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, true);
+    });
   });
 
   group('should return desktop configuration', () {
@@ -148,6 +171,29 @@ void main() {
       expect(config.screenWidth, 1000);
       expect(config.hasLeftColumn, false);
       expect(config.hasRightColumn, false);
+    });
+
+    test('with left and right column only', () {
+      final config = LayoutConfig.build(
+        1000,
+        leftFlex: 1,
+        rightFlex: 1,
+        centerFlex: 0,
+      );
+
+      expect(config.centerLeftHorizontalPadding, 500);
+      expect(config.centerRightHorizontalPadding, 500);
+      expect(config.drawerWidth, 0.25 * 1000);
+      expect(config.edgePadding, 0);
+      expect(config.endDrawerWidth, 0.25 * 1000);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 500);
+      expect(config.maxVisibleActionButtons, 5);
+      expect(config.rightColumnWidth, 500);
+      expect(config.screenWidth, 1000);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, true);
     });
   });
 }
