@@ -56,7 +56,8 @@ class SimplyResponsiveBody extends StatelessWidget {
 
   Widget _buildLeft(BuildContext context) {
     if (layoutConfig.leftColumnWidth == 0 ||
-        !layoutConfig.isLeftColumnVisible) {
+        !layoutConfig.isLeftColumnVisible ||
+        leftChild == null) {
       return null;
     }
     return Container(
@@ -68,7 +69,8 @@ class SimplyResponsiveBody extends StatelessWidget {
 
   Widget _buildRight(BuildContext context) {
     if (layoutConfig.rightColumnWidth == 0 ||
-        !layoutConfig.isRightColumnVisible) {
+        !layoutConfig.isRightColumnVisible ||
+        rightChild == null) {
       return null;
     }
     return Container(
