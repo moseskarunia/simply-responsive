@@ -24,6 +24,10 @@ class SimplyResponsiveBody extends StatelessWidget {
     Widget _leftColumn = _buildLeft(context);
     Widget _rightColumn = _buildRight(context);
 
+    if (_centerColumn != null && _leftColumn == null && _rightColumn == null) {
+      return _centerColumn;
+    }
+
     return Container(
       width: layoutConfig.screenWidth.toDouble(),
       child: Stack(
@@ -51,6 +55,10 @@ class SimplyResponsiveBody extends StatelessWidget {
   }
 
   Widget _buildLeft(BuildContext context) {
+    if (layoutConfig.leftColumnWidth == 0 ||
+        !layoutConfig.isLeftColumnVisible) {
+      return null;
+    }
     return Container(
       key: Key('leftColumn'),
       width: layoutConfig.leftColumnWidth.toDouble(),
@@ -59,6 +67,10 @@ class SimplyResponsiveBody extends StatelessWidget {
   }
 
   Widget _buildRight(BuildContext context) {
+    if (layoutConfig.rightColumnWidth == 0 ||
+        !layoutConfig.isRightColumnVisible) {
+      return null;
+    }
     return Container(
       key: Key('rightColumn'),
       width: layoutConfig.rightColumnWidth.toDouble(),
