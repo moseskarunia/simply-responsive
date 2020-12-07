@@ -175,23 +175,23 @@ void main() {
 
     test('with left and right column only', () {
       final config = LayoutConfig.build(
-        1000,
-        leftFlex: 1,
+        1200,
+        leftFlex: 2,
         rightFlex: 1,
         centerFlex: 0,
       );
 
-      expect(config.centerLeftHorizontalPadding, 500);
-      expect(config.centerRightHorizontalPadding, 500);
-      expect(config.drawerWidth, 0.25 * 1000);
+      expect(config.centerLeftHorizontalPadding, 800);
+      expect(config.centerRightHorizontalPadding, 400);
+      expect(config.drawerWidth, 0.25 * 1200);
       expect(config.edgePadding, 0);
-      expect(config.endDrawerWidth, 0.25 * 1000);
+      expect(config.endDrawerWidth, 0.25 * 1200);
       expect(config.isLeftColumnVisible, true);
       expect(config.isRightColumnVisible, true);
-      expect(config.leftColumnWidth, 500);
+      expect(config.leftColumnWidth, 800);
       expect(config.maxVisibleActionButtons, 5);
-      expect(config.rightColumnWidth, 500);
-      expect(config.screenWidth, 1000);
+      expect(config.rightColumnWidth, 400);
+      expect(config.screenWidth, 1200);
       expect(config.hasLeftColumn, true);
       expect(config.hasRightColumn, true);
     });
