@@ -37,6 +37,14 @@ class LayoutConfig {
   int get centerLeftHorizontalPadding => edgePadding + leftColumnWidth;
   int get centerRightHorizontalPadding => edgePadding + rightColumnWidth;
 
+  /// A computed property which combines [leftColumnWidth] &
+  /// [isLeftColumnVisible] value.
+  bool get hasLeftColumn => leftColumnWidth > 0 && isLeftColumnVisible;
+
+  /// A computed property which combines [rightColumnWidth] &
+  /// [isRightColumnVisible] value.
+  bool get hasRightColumn => rightColumnWidth > 0 && isRightColumnVisible;
+
   const LayoutConfig({
     this.drawerWidth = 0,
     this.edgePadding = 16,
