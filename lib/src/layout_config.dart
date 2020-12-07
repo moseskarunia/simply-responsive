@@ -38,14 +38,14 @@ class LayoutConfig {
   int get centerRightHorizontalPadding => edgePadding + rightColumnWidth;
 
   const LayoutConfig({
-    @required this.drawerWidth,
+    this.drawerWidth = 0,
     this.edgePadding = 16,
-    @required this.endDrawerWidth,
-    @required this.isLeftColumnVisible,
-    @required this.isRightColumnVisible,
-    @required this.leftColumnWidth,
+    this.endDrawerWidth = 0,
+    this.isLeftColumnVisible = false,
+    this.isRightColumnVisible = false,
+    this.leftColumnWidth = 0,
     this.maxVisibleActionButtons = 2,
-    @required this.rightColumnWidth,
+    this.rightColumnWidth = 0,
     @required this.screenWidth,
   });
 
