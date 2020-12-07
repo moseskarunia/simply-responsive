@@ -100,8 +100,14 @@ void main() {
   });
 
   group('should return only the center column', () {
-    testWidgets('in mobile size', (tester) async {
-      final config = LayoutConfig.build(500);
+    testWidgets('if both left & right width == 0', (tester) async {
+      final config = LayoutConfig(
+        screenWidth: 500,
+        leftColumnWidth: 0,
+        rightColumnWidth: 0,
+        isLeftColumnVisible: true,
+        isRightColumnVisible: true,
+      );
       final body = SimplyResponsiveBody(
         config,
         centerChild: Text('the center'),
@@ -127,22 +133,37 @@ void main() {
       );
     });
 
-    group('in tablet size', () {
-      final config = LayoutConfig.build(750);
-      SimplyResponsiveBody body;
-      setUp(() {
-        body = SimplyResponsiveBody(
-          config,
-          centerChild: Text('the center'),
-          leftChild: Text('the left'),
-          rightChild: Text('the right'),
-        );
-      });
+    testWidgets('if left & right column visibility is false', (tester) async {
+      final config = LayoutConfig(
+        screenWidth: 500,
+        leftColumnWidth: 100,
+        rightColumnWidth: 100,
+        isLeftColumnVisible: false,
+        isRightColumnVisible: false,
+      );
+      final body = SimplyResponsiveBody(
+        config,
+        centerChild: Text('the center'),
+        leftChild: Text('the left'),
+        rightChild: Text('the right'),
+      );
 
-      test('if no left column', () {});
-      test('if no right column', () {});
-      test('if left exist, but left flex 0', () {});
-      test('if right exist, but right flex 0', () {});
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
+
+      final centerWidget = find.byKey(Key('centerColumn'));
+      final leftWidget = find.byKey(Key('leftColumn'));
+      final rightWidget = find.byKey(Key('rightColumn'));
+
+      expect(leftWidget, findsNothing);
+      expect(rightWidget, findsNothing);
+
+      expect(tester.getSize(centerWidget).width, config.screenWidth);
+
+      /// When only center column, the direct ancestor should be a scaffold
+      expect(
+        find.ancestor(of: centerWidget, matching: find.byType(Scaffold)),
+        findsOneWidget,
+      );
     });
   });
 }
