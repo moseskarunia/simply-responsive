@@ -32,6 +32,8 @@ class LayoutConfig {
   /// Default 2
   final int maxVisibleActionButtons;
 
+  /// Use both [centerLeftHorizontalPadding] and [centerRightHorizontalPadding]
+  /// as your scrollable widget's padding to make it scrollable from the edge.
   int get centerLeftHorizontalPadding => edgePadding + leftColumnWidth;
   int get centerRightHorizontalPadding => edgePadding + rightColumnWidth;
 
