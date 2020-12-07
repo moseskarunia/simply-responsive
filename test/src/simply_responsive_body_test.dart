@@ -100,7 +100,25 @@ void main() {
   });
 
   group('should return only the center column', () {
-    testWidgets('if both left & right width == 0', (tester) async {
+    void performAssertion(WidgetTester tester, LayoutConfig config) {
+      final centerWidget = find.byKey(Key('centerColumn'));
+      final leftWidget = find.byKey(Key('leftColumn'));
+      final rightWidget = find.byKey(Key('rightColumn'));
+
+      expect(centerWidget, findsOneWidget);
+      expect(leftWidget, findsNothing);
+      expect(rightWidget, findsNothing);
+
+      expect(tester.getSize(centerWidget).width, config.screenWidth);
+
+      /// When only center column, the direct ancestor should be a scaffold
+      expect(
+        find.ancestor(of: centerWidget, matching: find.byType(Scaffold)),
+        findsOneWidget,
+      );
+    }
+
+    testWidgets('if both !hasLeftColumn & !hasRightColumn', (tester) async {
       final config = LayoutConfig(
         screenWidth: 500,
         leftColumnWidth: 0,
@@ -117,53 +135,7 @@ void main() {
 
       await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
 
-      final centerWidget = find.byKey(Key('centerColumn'));
-      final leftWidget = find.byKey(Key('leftColumn'));
-      final rightWidget = find.byKey(Key('rightColumn'));
-
-      expect(leftWidget, findsNothing);
-      expect(rightWidget, findsNothing);
-
-      expect(tester.getSize(centerWidget).width, config.screenWidth);
-
-      /// When only center column, the direct ancestor should be a scaffold
-      expect(
-        find.ancestor(of: centerWidget, matching: find.byType(Scaffold)),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('if left & right column visibility is false', (tester) async {
-      final config = LayoutConfig(
-        screenWidth: 500,
-        leftColumnWidth: 100,
-        rightColumnWidth: 100,
-        isLeftColumnVisible: false,
-        isRightColumnVisible: false,
-      );
-      final body = SimplyResponsiveBody(
-        config,
-        centerChild: Text('the center'),
-        leftChild: Text('the left'),
-        rightChild: Text('the right'),
-      );
-
-      await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
-
-      final centerWidget = find.byKey(Key('centerColumn'));
-      final leftWidget = find.byKey(Key('leftColumn'));
-      final rightWidget = find.byKey(Key('rightColumn'));
-
-      expect(leftWidget, findsNothing);
-      expect(rightWidget, findsNothing);
-
-      expect(tester.getSize(centerWidget).width, config.screenWidth);
-
-      /// When only center column, the direct ancestor should be a scaffold
-      expect(
-        find.ancestor(of: centerWidget, matching: find.byType(Scaffold)),
-        findsOneWidget,
-      );
+      performAssertion(tester, config);
     });
 
     testWidgets('if left & right child is null', (tester) async {
@@ -183,24 +155,188 @@ void main() {
 
       await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
 
-      final centerWidget = find.byKey(Key('centerColumn'));
-      final leftWidget = find.byKey(Key('leftColumn'));
-      final rightWidget = find.byKey(Key('rightColumn'));
-
-      expect(leftWidget, findsNothing);
-      expect(rightWidget, findsNothing);
-
-      expect(tester.getSize(centerWidget).width, config.screenWidth);
-
-      /// When only center column, the direct ancestor should be a scaffold
-      expect(
-        find.ancestor(of: centerWidget, matching: find.byType(Scaffold)),
-        findsOneWidget,
-      );
+      performAssertion(tester, config);
     });
   });
 
   group('should return left and center only', () {
-    // test('')
+    void performAssertion(WidgetTester tester, LayoutConfig config) {
+      final centerWidget = find.byKey(Key('centerColumn'));
+      final leftWidget = find.byKey(Key('leftColumn'));
+      final rightWidget = find.byKey(Key('rightColumn'));
+      expect(centerWidget, findsOneWidget);
+      expect(leftWidget, findsOneWidget);
+      expect(rightWidget, findsNothing);
+
+      expect(tester.getSize(centerWidget).width, config.screenWidth);
+      expect(tester.getSize(leftWidget).width, config.leftColumnWidth);
+
+      final leftPositioned = find.ancestor(
+        of: leftWidget,
+        matching: find.byType(Positioned),
+      );
+      expect(leftPositioned, findsOneWidget);
+      expect(
+        tester.widget<Positioned>(leftPositioned).left,
+        config.edgePadding,
+      );
+      expect(
+        find.ancestor(of: leftPositioned, matching: find.byType(Stack)),
+        findsOneWidget,
+      );
+      final centerPositioned = find.ancestor(
+        of: centerWidget,
+        matching: find.byType(Positioned),
+      );
+      expect(centerPositioned, findsOneWidget);
+      expect(find.byType(Positioned), findsNWidgets(2));
+
+      expect(
+        find.ancestor(of: leftPositioned, matching: find.byType(Stack)),
+        findsOneWidget,
+      );
+      expect(
+        find.ancestor(of: centerPositioned, matching: find.byType(Stack)),
+        findsOneWidget,
+      );
+    }
+
+    testWidgets('if hasLeftColumn && !hasRightColumn', (tester) async {
+      final config = LayoutConfig(
+        screenWidth: 500,
+        leftColumnWidth: 100,
+        rightColumnWidth: 0,
+        isLeftColumnVisible: true,
+        isRightColumnVisible: false,
+        edgePadding: 16,
+      );
+
+      final body = SimplyResponsiveBody(
+        config,
+        centerChild: Text('the center'),
+        leftChild: Text('the left'),
+        rightChild: Text('the right'),
+      );
+
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
+      performAssertion(tester, config);
+    });
+
+    testWidgets('if hasLeftColumn && no rightChild', (tester) async {
+      final config = LayoutConfig(
+        screenWidth: 500,
+        leftColumnWidth: 100,
+        rightColumnWidth: 100,
+        isLeftColumnVisible: true,
+        isRightColumnVisible: true,
+        edgePadding: 16,
+      );
+
+      final body = SimplyResponsiveBody(
+        config,
+        centerChild: Text('the center'),
+        leftChild: Text('the left'),
+        rightChild: null,
+      );
+
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
+      performAssertion(tester, config);
+    });
+  });
+
+  group('should return right and center only', () {
+    void performAssertion(WidgetTester tester, LayoutConfig config) {
+      final centerWidget = find.byKey(Key('centerColumn'));
+      final leftWidget = find.byKey(Key('leftColumn'));
+      final rightWidget = find.byKey(Key('rightColumn'));
+      expect(centerWidget, findsOneWidget);
+      expect(leftWidget, findsNothing);
+      expect(rightWidget, findsOneWidget);
+
+      expect(tester.getSize(centerWidget).width, config.screenWidth);
+      expect(tester.getSize(rightWidget).width, config.rightColumnWidth);
+
+      final rightPositioned = find.ancestor(
+        of: rightWidget,
+        matching: find.byType(Positioned),
+      );
+      expect(rightPositioned, findsOneWidget);
+      expect(
+        tester.widget<Positioned>(rightPositioned).right,
+        config.edgePadding,
+      );
+      expect(
+        find.ancestor(of: rightPositioned, matching: find.byType(Stack)),
+        findsOneWidget,
+      );
+      final centerPositioned = find.ancestor(
+        of: centerWidget,
+        matching: find.byType(Positioned),
+      );
+      expect(centerPositioned, findsOneWidget);
+      expect(find.byType(Positioned), findsNWidgets(2));
+
+      expect(
+        find.ancestor(of: rightPositioned, matching: find.byType(Stack)),
+        findsOneWidget,
+      );
+      expect(
+        find.ancestor(of: centerPositioned, matching: find.byType(Stack)),
+        findsOneWidget,
+      );
+    }
+
+    testWidgets('if hasRightColumn && !hasLeftColumn', (tester) async {
+      final config = LayoutConfig(
+        screenWidth: 500,
+        leftColumnWidth: 0,
+        rightColumnWidth: 100,
+        isLeftColumnVisible: false,
+        isRightColumnVisible: true,
+        edgePadding: 16,
+      );
+
+      final body = SimplyResponsiveBody(
+        config,
+        centerChild: Text('the center'),
+        leftChild: Text('the left'),
+        rightChild: Text('the right'),
+      );
+
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
+      performAssertion(tester, config);
+    });
+
+    testWidgets('if hasRightColumn && no leftChild', (tester) async {
+      final config = LayoutConfig(
+        screenWidth: 500,
+        leftColumnWidth: 100,
+        rightColumnWidth: 100,
+        isLeftColumnVisible: true,
+        isRightColumnVisible: true,
+        edgePadding: 16,
+      );
+
+      final body = SimplyResponsiveBody(
+        config,
+        centerChild: Text('the center'),
+        leftChild: null,
+        rightChild: Text('the right'),
+      );
+
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
+      performAssertion(tester, config);
+    });
+  });
+
+  group('should only have left and right column without center', () {
+    final config = LayoutConfig(
+      screenWidth: 500,
+      leftColumnWidth: 0,
+      rightColumnWidth: 100,
+      isLeftColumnVisible: false,
+      isRightColumnVisible: true,
+      edgePadding: 16,
+    );
   });
 }

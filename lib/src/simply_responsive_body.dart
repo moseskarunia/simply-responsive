@@ -28,21 +28,25 @@ class SimplyResponsiveBody extends StatelessWidget {
       return _centerColumn;
     }
 
+    List<Widget> stackChildren = [Positioned.fill(child: _centerColumn)];
+
+    if (_leftColumn != null) {
+      stackChildren.add(Positioned(
+        left: layoutConfig.edgePadding.toDouble(),
+        child: _leftColumn,
+      ));
+    }
+
+    if (_rightColumn != null) {
+      stackChildren.add(Positioned(
+        right: layoutConfig.edgePadding.toDouble(),
+        child: _rightColumn,
+      ));
+    }
+
     return Container(
       width: layoutConfig.screenWidth.toDouble(),
-      child: Stack(
-        children: [
-          Positioned.fill(child: _centerColumn),
-          Positioned(
-            left: layoutConfig.edgePadding.toDouble(),
-            child: _leftColumn,
-          ),
-          Positioned(
-            right: layoutConfig.edgePadding.toDouble(),
-            child: _rightColumn,
-          )
-        ],
-      ),
+      child: Stack(children: stackChildren),
     );
   }
 
