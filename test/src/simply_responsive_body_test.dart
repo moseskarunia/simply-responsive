@@ -21,6 +21,18 @@ void main() {
       );
     });
 
+    test('should throw AssertionError if no layout config', () async {
+      await expectLater(
+        () => SimplyResponsiveBody(
+          null,
+          centerChild: Text('the center'),
+          leftChild: Text('the left'),
+          rightChild: Text('the right'),
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
     testWidgets('center column is correct', (tester) async {
       await tester.pumpWidget(MaterialApp(home: Scaffold(body: body)));
 
