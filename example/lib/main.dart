@@ -33,7 +33,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final config = LayoutConfig.build(MediaQuery.of(context).size.width);
+    final config = LayoutConfig.build(
+      MediaQuery.of(context).size.width,
+      edgePadding: 16,
+    );
 
     final _left = ListView.separated(
       padding: const EdgeInsets.all(16),
@@ -71,24 +74,30 @@ class _MyHomePageState extends State<MyHomePage> {
       separatorBuilder: (_, __) => SizedBox(height: 16),
     );
 
+    final _center = ListView.separated(
+      padding: EdgeInsets.fromLTRB(config.centerLeftHorizontalPadding, 16,
+          config.centerRightHorizontalPadding, 16),
+      itemCount: centerContents.length + 1,
+      itemBuilder: (context, i) {
+        if (i == 0) {
+          return Text(
+            centerTitle,
+            style: Theme.of(context).textTheme.headline4,
+          );
+        }
+        return Text(
+          centerContents[i - 1],
+          style: Theme.of(context).textTheme.headline5,
+        );
+      },
+      separatorBuilder: (_, __) => SizedBox(height: 16),
+    );
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: SimplyResponsiveBody(
         config,
-        centerChild: ListView(
-          padding: EdgeInsets.fromLTRB(
-            config.centerLeftHorizontalPadding,
-            16,
-            config.centerRightHorizontalPadding,
-            16,
-          ),
-          children: [
-            Text(
-              loremIpsum(initWithLorem: true, words: 500, paragraphs: 5),
-              style: Theme.of(context).textTheme.headline5,
-            )
-          ],
-        ),
+        centerChild: _center,
         leftChild: _left,
         rightChild: _right,
       ),
