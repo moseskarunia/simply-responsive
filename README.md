@@ -4,9 +4,11 @@
 
 A mobile-first widget to help us build a responsive app across mobile, tablet, and desktop with ease. Unlike the CSS 12 grid system, The design of simply_responsive is based on 3-columns design of a desktop website. This has an advantage of being simpler to use than the CSS 12 grid system, at the cost of reduced possible flexibilities. I try to make this library as tested as possible.
 
+And, since it's responsive, it'll be no need for you to lock the orientation of your app to portrait only!
+
 ## Upcoming Timeline
 - Simply Responsive Navigation Column
-- Simply Responsive Right Column and App Bar
+- Simply Responsive Right Column and App Bar (auto show drawer & endDrawer)
 
 ## Getting Started
 There are 3 kind of screen sizes breakpoints with different configuration:
