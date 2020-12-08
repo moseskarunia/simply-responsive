@@ -1,6 +1,5 @@
 import 'package:example/string_content.dart';
 import 'package:flutter/material.dart';
-import 'package:lorem_ipsum/lorem_ipsum.dart';
 import 'package:simply_responsive/simply_responsive.dart';
 
 void main() {
