@@ -26,16 +26,13 @@ jobs:
         run: flutter pub get
       - name: Analyze project source
         run: flutter analyze lib test
-      # - name: Run tests, process code coverage
-      #   run: |
-      #     flutter test --coverage
-      #     lcov --list coverage/lcov.info
-      #     genhtml coverage/lcov.info --output coverage/
-      # - name: Archive Code Coverage
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: code-coverage
-      #     path: coverage/
+      - name: Run tests, process code coverage
+        run: flutter test --coverage
+      - name: Archive Code Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: coverage/
       - name: Check Code Coverage
         uses: ChicagoFlutter/lcov-cop@v1.0.0
         with:
