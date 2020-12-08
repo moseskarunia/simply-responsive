@@ -13,17 +13,34 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
+      # - name: Install LCOV
+      #   run: |
+      #     VERSION="1.14"
+      #     mkdir Iconv
+      #     cd Iconv
+      #     wget "https://github.com/linux-test-project/lcov/releases/download/v1.14/lcov-$VERSION.tar.gz"
+      #     tar -xzf "lcov-$VERSION.tar.gz"
+      #     cd "lcov-$VERSION"
+      #     sudo make install
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze project source
         run: flutter analyze lib test
-      - name: Run tests, process code coverage
-        run: |
-          flutter test --coverage
-          lcov --list coverage/lcov.info
-          genhtml coverage/lcov.info --output coverage/
-      - name: Archive Code Coverage
-        uses: actions/upload-artifact@v2
+      # - name: Run tests, process code coverage
+      #   run: |
+      #     flutter test --coverage
+      #     lcov --list coverage/lcov.info
+      #     genhtml coverage/lcov.info --output coverage/
+      # - name: Archive Code Coverage
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: code-coverage
+      #     path: coverage/
+      - name: Check Code Coverage
+        uses: ChicagoFlutter/lcov-cop@v1.0.0
         with:
-          name: code-coverage
-          path: coverage/
+          path: coverage/lcov.info
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
