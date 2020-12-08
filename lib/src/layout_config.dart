@@ -90,7 +90,7 @@ class LayoutConfig {
     double screenWidth, {
     int centerFlex = 2,
     double drawerToScreenWidthRatio,
-    double edgePadding,
+    double edgePadding = 0,
     double endDrawerToScreenWidthRatio,
     int leftFlex = 1,
     int maxVisibleActionButtons,
