@@ -26,29 +26,44 @@ class LayoutConfig {
   /// Edge padding to make the center scrollable from the edge of the screen.
   /// The same value will be substracted from both left and right column width
   /// (if any). Default value = 16.
+  ///
+  /// This value is used as a left and right value of Positioned widget
+  /// of left and right column.
   final int edgePadding;
 
   /// Maximum allowed action buttons at the top right of the scaffold.
   /// Default 2
   final int maxVisibleActionButtons;
 
+  /// Use both [centerLeftHorizontalPadding] and [centerRightHorizontalPadding]
+  /// as your scrollable widget's padding to make it scrollable from the edge.
   int get centerLeftHorizontalPadding => edgePadding + leftColumnWidth;
   int get centerRightHorizontalPadding => edgePadding + rightColumnWidth;
 
+  /// A computed property which combines [leftColumnWidth] &
+  /// [isLeftColumnVisible] value.
+  bool get hasLeftColumn => leftColumnWidth > 0 && isLeftColumnVisible;
+
+  /// A computed property which combines [rightColumnWidth] &
+  /// [isRightColumnVisible] value.
+  bool get hasRightColumn => rightColumnWidth > 0 && isRightColumnVisible;
+
   const LayoutConfig({
-    @required this.drawerWidth,
+    this.drawerWidth = 0,
     this.edgePadding = 16,
-    @required this.endDrawerWidth,
-    @required this.isLeftColumnVisible,
-    @required this.isRightColumnVisible,
-    @required this.leftColumnWidth,
+    this.endDrawerWidth = 0,
+    this.isLeftColumnVisible = false,
+    this.isRightColumnVisible = false,
+    this.leftColumnWidth = 0,
     this.maxVisibleActionButtons = 2,
-    @required this.rightColumnWidth,
+    this.rightColumnWidth = 0,
     @required this.screenWidth,
   });
 
   /// Build layout config from [screenWidth]. The center will be calculated
   /// with ceiling rounding first.
+  ///
+  /// There's normal mode and 2 columns only mode, which splits the screen in 2.
   ///
   /// * [drawerToWidthRatio] ratio of drawer to the total width of the screen.
   ///   When null, the default value is: 0.75 on mobile, 0.5 on tablet, and
@@ -110,13 +125,20 @@ class LayoutConfig {
       calculatedDrawerRatio = drawerToScreenWidthRatio ?? 0.5;
       calculatedEndDrawerRatio = endDrawerToScreenWidthRatio ?? 0.5;
 
-      totalFlex = leftFlex > 0 ? centerFlex + leftFlex : centerFlex + rightFlex;
-
-      leftWidth = max((leftFlex * screenWidth / totalFlex).floor(), 0);
-      rightWidth = leftFlex == 0
-          ? max((rightFlex * screenWidth / totalFlex).floor(), 0)
-          : 0;
-      calculatedEdgePadding = edgePadding;
+      if (centerFlex > 0) {
+        totalFlex =
+            leftFlex > 0 ? centerFlex + leftFlex : centerFlex + rightFlex;
+        leftWidth = max((leftFlex * screenWidth / totalFlex).floor(), 0);
+        rightWidth = leftFlex == 0
+            ? max((rightFlex * screenWidth / totalFlex).floor(), 0)
+            : 0;
+        calculatedEdgePadding = edgePadding;
+      } else {
+        totalFlex = leftFlex + rightFlex;
+        leftWidth = max((leftFlex * screenWidth / totalFlex).floor(), 0);
+        rightWidth = max((rightFlex * screenWidth / totalFlex).floor(), 0);
+        calculatedEdgePadding = 0;
+      }
 
       if (maxCenterToScreenRatioWhenNoSideColumn < 1 &&
           leftFlex == 0 &&
@@ -130,7 +152,8 @@ class LayoutConfig {
         drawerWidth: calculatedDrawerRatio * screenWidth,
         endDrawerWidth: calculatedEndDrawerRatio * screenWidth,
         isLeftColumnVisible: leftFlex > 0,
-        isRightColumnVisible: leftFlex == 0 && rightFlex > 0,
+        isRightColumnVisible: (leftFlex == 0 && rightFlex > 0) ||
+            centerFlex == 0 && rightFlex > 0,
         leftColumnWidth: max(leftWidth - calculatedEdgePadding, 0),
         maxVisibleActionButtons: calculatedMaxVisibleActionButtons,
         rightColumnWidth: max(rightWidth - calculatedEdgePadding, 0),
@@ -150,6 +173,10 @@ class LayoutConfig {
     rightWidth = max((rightFlex * screenWidth / totalFlex).floor(), 0);
 
     calculatedEdgePadding = edgePadding;
+
+    if (centerFlex == 0 && leftFlex > 0 && rightFlex > 0) {
+      calculatedEdgePadding = 0;
+    }
 
     if (maxCenterToScreenRatioWhenNoSideColumn < 1 &&
         leftFlex == 0 &&

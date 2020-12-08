@@ -16,6 +16,8 @@ void main() {
     expect(config.maxVisibleActionButtons, 2);
     expect(config.rightColumnWidth, 0);
     expect(config.screenWidth, 500);
+    expect(config.hasLeftColumn, false);
+    expect(config.hasRightColumn, false);
   });
 
   group('should return tablet configuration', () {
@@ -35,6 +37,8 @@ void main() {
       expect(config.maxVisibleActionButtons, 3);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 750);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, false);
     });
     test('with right column instead of left', () {
       final config = LayoutConfig.build(750, leftFlex: 0);
@@ -51,6 +55,8 @@ void main() {
       expect(config.leftColumnWidth, 0);
       expect(config.rightColumnWidth, rightWidth - 16);
       expect(config.screenWidth, 750);
+      expect(config.hasLeftColumn, false);
+      expect(config.hasRightColumn, true);
     });
     test('with center column only', () {
       final config = LayoutConfig.build(750, leftFlex: 0, rightFlex: 0);
@@ -66,6 +72,31 @@ void main() {
       expect(config.maxVisibleActionButtons, 3);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 750);
+      expect(config.hasLeftColumn, false);
+      expect(config.hasRightColumn, false);
+    });
+
+    test('with left and right column only', () {
+      final config = LayoutConfig.build(
+        750,
+        leftFlex: 1,
+        rightFlex: 1,
+        centerFlex: 0,
+      );
+
+      expect(config.centerLeftHorizontalPadding, 375);
+      expect(config.centerRightHorizontalPadding, 375);
+      expect(config.drawerWidth, 0.5 * 750);
+      expect(config.edgePadding, 0);
+      expect(config.endDrawerWidth, 0.5 * 750);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 375);
+      expect(config.maxVisibleActionButtons, 3);
+      expect(config.rightColumnWidth, 375);
+      expect(config.screenWidth, 750);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, true);
     });
   });
 
@@ -84,6 +115,8 @@ void main() {
       expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, 250 - 16);
       expect(config.screenWidth, 1000);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, true);
     });
     test('with left column', () {
       final config = LayoutConfig.build(1000, rightFlex: 0);
@@ -100,6 +133,8 @@ void main() {
       expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 1000);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, false);
     });
     test('with right column', () {
       final config = LayoutConfig.build(1000, leftFlex: 0);
@@ -116,6 +151,8 @@ void main() {
       expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, rightWidth - 16);
       expect(config.screenWidth, 1000);
+      expect(config.hasLeftColumn, false);
+      expect(config.hasRightColumn, true);
     });
     test('with center column only', () {
       final config = LayoutConfig.build(1000, leftFlex: 0, rightFlex: 0);
@@ -132,6 +169,31 @@ void main() {
       expect(config.maxVisibleActionButtons, 5);
       expect(config.rightColumnWidth, 0);
       expect(config.screenWidth, 1000);
+      expect(config.hasLeftColumn, false);
+      expect(config.hasRightColumn, false);
+    });
+
+    test('with left and right column only', () {
+      final config = LayoutConfig.build(
+        1200,
+        leftFlex: 2,
+        rightFlex: 1,
+        centerFlex: 0,
+      );
+
+      expect(config.centerLeftHorizontalPadding, 800);
+      expect(config.centerRightHorizontalPadding, 400);
+      expect(config.drawerWidth, 0.25 * 1200);
+      expect(config.edgePadding, 0);
+      expect(config.endDrawerWidth, 0.25 * 1200);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 800);
+      expect(config.maxVisibleActionButtons, 5);
+      expect(config.rightColumnWidth, 400);
+      expect(config.screenWidth, 1200);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, true);
     });
   });
 }
