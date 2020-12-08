@@ -37,19 +37,23 @@ class SimplyResponsiveBody extends StatelessWidget {
       stackChildren = [Positioned.fill(child: _centerColumn)];
       if (_leftColumn != null) {
         stackChildren.add(Positioned(
-          left: layoutConfig.edgePadding.toDouble(),
+          left: layoutConfig.edgePadding,
+          top: 0,
+          bottom: 0,
           child: _leftColumn,
         ));
       }
 
       if (_rightColumn != null) {
         stackChildren.add(Positioned(
-          right: layoutConfig.edgePadding.toDouble(),
+          top: 0,
+          bottom: 0,
+          right: layoutConfig.edgePadding,
           child: _rightColumn,
         ));
       }
       return Container(
-        width: layoutConfig.screenWidth.toDouble(),
+        width: layoutConfig.screenWidth,
         child: Stack(children: stackChildren),
       );
     } else {
@@ -62,7 +66,7 @@ class SimplyResponsiveBody extends StatelessWidget {
       }
 
       return Container(
-        width: layoutConfig.screenWidth.toDouble(),
+        width: layoutConfig.screenWidth,
         child: Row(children: stackChildren),
       );
     }
@@ -74,7 +78,7 @@ class SimplyResponsiveBody extends StatelessWidget {
     }
     return Container(
       key: Key('centerColumn'),
-      width: layoutConfig.screenWidth.toDouble(),
+      width: layoutConfig.screenWidth,
       child: centerChild,
     );
   }
@@ -87,7 +91,7 @@ class SimplyResponsiveBody extends StatelessWidget {
     }
     return Container(
       key: Key('leftColumn'),
-      width: layoutConfig.leftColumnWidth.toDouble(),
+      width: layoutConfig.leftColumnWidth,
       child: leftChild,
     );
   }
@@ -100,7 +104,7 @@ class SimplyResponsiveBody extends StatelessWidget {
     }
     return Container(
       key: Key('rightColumn'),
-      width: layoutConfig.rightColumnWidth.toDouble(),
+      width: layoutConfig.rightColumnWidth,
       child: rightChild,
     );
   }

@@ -2,27 +2,56 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:simply_responsive/src/layout_config.dart';
 
 void main() {
-  test('should return mobile configuration', () {
-    final config = LayoutConfig.build(500);
+  group('should return mobile configuration', () {
+    test('only center', () {
+      final config = LayoutConfig.build(
+        500,
+        edgePadding: 16,
+      );
 
-    expect(config.centerLeftHorizontalPadding, 16);
-    expect(config.centerRightHorizontalPadding, 16);
-    expect(config.drawerWidth, 0.75 * 500);
-    expect(config.edgePadding, 16);
-    expect(config.endDrawerWidth, 0.75 * 500);
-    expect(config.isLeftColumnVisible, false);
-    expect(config.isRightColumnVisible, false);
-    expect(config.leftColumnWidth, 0);
-    expect(config.maxVisibleActionButtons, 2);
-    expect(config.rightColumnWidth, 0);
-    expect(config.screenWidth, 500);
-    expect(config.hasLeftColumn, false);
-    expect(config.hasRightColumn, false);
+      expect(config.centerLeftHorizontalPadding, 16);
+      expect(config.centerRightHorizontalPadding, 16);
+      expect(config.drawerWidth, 0.75 * 500);
+      expect(config.edgePadding, 16);
+      expect(config.endDrawerWidth, 0.75 * 500);
+      expect(config.isLeftColumnVisible, false);
+      expect(config.isRightColumnVisible, false);
+      expect(config.leftColumnWidth, 0);
+      expect(config.maxVisibleActionButtons, 2);
+      expect(config.rightColumnWidth, 0);
+      expect(config.screenWidth, 500);
+      expect(config.hasLeftColumn, false);
+      expect(config.hasRightColumn, false);
+    });
+    test('left right (2 column) mode', () {
+      final config = LayoutConfig.build(
+        500,
+        centerFlex: 0,
+        edgePadding: 16,
+      );
+
+      expect(config.centerLeftHorizontalPadding, 250);
+      expect(config.centerRightHorizontalPadding, 250);
+      expect(config.drawerWidth, 0.75 * 500);
+      expect(config.edgePadding, 16);
+      expect(config.endDrawerWidth, 0.75 * 500);
+      expect(config.isLeftColumnVisible, true);
+      expect(config.isRightColumnVisible, true);
+      expect(config.leftColumnWidth, 250 - 16);
+      expect(config.maxVisibleActionButtons, 2);
+      expect(config.rightColumnWidth, 250 - 16);
+      expect(config.screenWidth, 500);
+      expect(config.hasLeftColumn, true);
+      expect(config.hasRightColumn, true);
+    });
   });
 
   group('should return tablet configuration', () {
     test('with left column', () {
-      final config = LayoutConfig.build(750);
+      final config = LayoutConfig.build(
+        750,
+        edgePadding: 16,
+      );
 
       final leftWidth = (1 * 750 / 3).floor();
 
@@ -41,7 +70,11 @@ void main() {
       expect(config.hasRightColumn, false);
     });
     test('with right column instead of left', () {
-      final config = LayoutConfig.build(750, leftFlex: 0);
+      final config = LayoutConfig.build(
+        750,
+        leftFlex: 0,
+        edgePadding: 16,
+      );
 
       final rightWidth = (1 * 750 / 3).floor();
 
@@ -59,7 +92,12 @@ void main() {
       expect(config.hasRightColumn, true);
     });
     test('with center column only', () {
-      final config = LayoutConfig.build(750, leftFlex: 0, rightFlex: 0);
+      final config = LayoutConfig.build(
+        750,
+        leftFlex: 0,
+        rightFlex: 0,
+        edgePadding: 16,
+      );
 
       expect(config.centerLeftHorizontalPadding, 93);
       expect(config.centerRightHorizontalPadding, 93);
@@ -82,6 +120,7 @@ void main() {
         leftFlex: 1,
         rightFlex: 1,
         centerFlex: 0,
+        edgePadding: 16,
       );
 
       expect(config.centerLeftHorizontalPadding, 375);
@@ -102,7 +141,10 @@ void main() {
 
   group('should return desktop configuration', () {
     test('with both side columns', () {
-      final config = LayoutConfig.build(1000);
+      final config = LayoutConfig.build(
+        1000,
+        edgePadding: 16,
+      );
 
       expect(config.centerLeftHorizontalPadding, 250);
       expect(config.centerRightHorizontalPadding, 250);
@@ -119,7 +161,11 @@ void main() {
       expect(config.hasRightColumn, true);
     });
     test('with left column', () {
-      final config = LayoutConfig.build(1000, rightFlex: 0);
+      final config = LayoutConfig.build(
+        1000,
+        rightFlex: 0,
+        edgePadding: 16,
+      );
       final leftWidth = (1000 / 3).floor();
 
       expect(config.centerLeftHorizontalPadding, leftWidth);
@@ -137,7 +183,11 @@ void main() {
       expect(config.hasRightColumn, false);
     });
     test('with right column', () {
-      final config = LayoutConfig.build(1000, leftFlex: 0);
+      final config = LayoutConfig.build(
+        1000,
+        leftFlex: 0,
+        edgePadding: 16,
+      );
       final rightWidth = (1000 / 3).floor();
 
       expect(config.centerLeftHorizontalPadding, 16);
@@ -155,7 +205,12 @@ void main() {
       expect(config.hasRightColumn, true);
     });
     test('with center column only', () {
-      final config = LayoutConfig.build(1000, leftFlex: 0, rightFlex: 0);
+      final config = LayoutConfig.build(
+        1000,
+        leftFlex: 0,
+        rightFlex: 0,
+        edgePadding: 16,
+      );
       final sidePadding = (1000 * 0.25 / 2).floor();
 
       expect(config.centerLeftHorizontalPadding, sidePadding);
@@ -179,6 +234,7 @@ void main() {
         leftFlex: 2,
         rightFlex: 1,
         centerFlex: 0,
+        edgePadding: 16,
       );
 
       expect(config.centerLeftHorizontalPadding, 800);
