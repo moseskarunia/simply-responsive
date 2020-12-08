@@ -21,5 +21,13 @@ jobs:
         run: flutter pub get
       - name: Analyze project source
         run: dart analyze
-      - name: Run tests
-        run: flutter test
+      - name: Run tests, process code coverage
+        run: | 
+          flutter test --coverage
+          lcov --list coverage/lcov.info
+          genhtml coverage/lcov.info --output coverage/
+      - name: Archive Code Coverage
+        run: actions/upload-artifact@v2
+        with: 
+          name: code-coverage
+          path: coverage/
