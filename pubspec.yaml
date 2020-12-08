@@ -1,6 +1,7 @@
 name: simply_responsive
 description: Utility UI library to help us build a responsive app with ease.
 version: 0.0.1
+repository: https://github.com/moseskarunia/simply-responsive
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
