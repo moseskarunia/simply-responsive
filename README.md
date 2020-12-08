@@ -1,6 +1,6 @@
 # simply_responsive
 
-![simply_responsive](https://github.com/moseskarunia/simply-responsive/workflows/simply_responsive/badge.svg)
+![simply_responsive](https://github.com/moseskarunia/simply-responsive/workflows/simply_responsive/badge.svg) [![codecov](https://codecov.io/gh/moseskarunia/simply-responsive/branch/master/graph/badge.svg?token=LBQMDK2MUU)](https://codecov.io/gh/moseskarunia/simply-responsive)
 
 A mobile-first widget to help us build a responsive app across mobile, tablet, and desktop with ease. Unlike the CSS 12 grid system, The design of simply_responsive is based on 3-columns design of a desktop website. This has an advantage of being simpler to use than the CSS 12 grid system, at the cost of reduced possible flexibilities. I try to make this library as tested as possible.
 
