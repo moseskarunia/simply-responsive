@@ -1,0 +1,25 @@
+name: simply_responsive
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Print Dart SDK version
+        run: dart --version
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze project source
+        run: dart analyze
+      - name: Run tests
+        run: flutter test
