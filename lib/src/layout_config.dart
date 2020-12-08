@@ -26,6 +26,9 @@ class LayoutConfig {
   /// Edge padding to make the center scrollable from the edge of the screen.
   /// The same value will be substracted from both left and right column width
   /// (if any). Default value = 16.
+  ///
+  /// This value is used as a left and right value of Positioned widget
+  /// of left and right column.
   final int edgePadding;
 
   /// Maximum allowed action buttons at the top right of the scaffold.
