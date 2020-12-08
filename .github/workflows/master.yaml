@@ -1,10 +1,8 @@
-name: simply_responsive
+name: simply_responsive_master_ci
 
 on:
   push:
-    branches: [master, dev]
-  pull_request:
-    branches: [master, dev]
+    branches: [master]
 
 jobs:
   build:
@@ -27,3 +25,5 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Publish to Pub Dev
+        run: pub publish
