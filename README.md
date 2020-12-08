@@ -17,7 +17,7 @@ There are 3 kind of screen sizes breakpoints with different configuration:
   - Left and center column
   - Center and right column
   - Left and right column
-3. >= 768px: Desktop
+3. \>=768px: Desktop
   - All possible tablet screen configuration
   - All 3 columns (left, center, right)
 
