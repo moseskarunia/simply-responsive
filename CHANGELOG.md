@@ -1,3 +1,7 @@
+## [0.0.3] - 16 December 2020
+
+* Update Readme
+
 ## [0.0.2] - 8 December 2020
 
 * [BUG] Set top and bottom of positioned left and right column to 0.
