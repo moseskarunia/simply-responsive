@@ -2,6 +2,8 @@
 
 ![simply_responsive](https://github.com/moseskarunia/simply-responsive/workflows/simply_responsive/badge.svg) [![codecov](https://codecov.io/gh/moseskarunia/simply-responsive/branch/master/graph/badge.svg?token=LBQMDK2MUU)](https://codecov.io/gh/moseskarunia/simply-responsive)
 
+<a href="https://www.buymeacoffee.com/moseskarunia" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" style="height: 6px !important;width: 22px !important;" ></a>
+
 A mobile-first widget to help us build a responsive app across mobile, tablet, and desktop with ease. Unlike the CSS 12 grid system, The design of simply_responsive is based on 3-columns design of a desktop website. This has an advantage of being simpler to use than the CSS 12 grid system, at the cost of reduced possible flexibilities. I try to make this library as tested as possible.
 
 And, since it's responsive, it'll be no need for you to lock the orientation of your app to portrait only!
