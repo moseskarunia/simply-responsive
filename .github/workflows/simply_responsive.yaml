@@ -3,6 +3,8 @@ name: simply_responsive_master_ci
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   build:
@@ -12,10 +14,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get      
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test example
       - name: Analyze project source
         run: flutter analyze lib test
-      - name: Run tests, process code coverage
+      - name: Test
         run: flutter test --coverage
       - name: Check Code Coverage
         uses: ChicagoFlutter/lcov-cop@v1.0.0
