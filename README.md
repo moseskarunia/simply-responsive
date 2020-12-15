@@ -1,6 +1,6 @@
 # simply_responsive
 
-![simply_responsive](https://github.com/moseskarunia/simply-responsive/workflows/simply_responsive/badge.svg) [![codecov](https://codecov.io/gh/moseskarunia/simply-responsive/branch/master/graph/badge.svg?token=LBQMDK2MUU)](https://codecov.io/gh/moseskarunia/simply-responsive)
+![simply_responsive](https://github.com/moseskarunia/simply-responsive/workflows/simply_responsive/badge.svg) [![codecov](https://codecov.io/gh/moseskarunia/simply-responsive/branch/master/graph/badge.svg?token=LBQMDK2MUU)](https://codecov.io/gh/moseskarunia/simply-responsive) [![pub package](https://img.shields.io/pub/v/simply_responsive.svg)](https://pub.dev/packages/simply_responsive)
 
 <a href="https://www.buymeacoffee.com/moseskarunia" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" style="height: 6px !important;width: 22px !important;" ></a>
 
